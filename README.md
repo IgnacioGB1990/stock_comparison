@@ -3,13 +3,12 @@
 
 This repository is organized into three main folders:
 
-```
-
+```text
+.
 ├── dashboard/
 ├── data/
 ├── scripts/
 └── README.md
-
 ```
 
 ## Folder Structure
