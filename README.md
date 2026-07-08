@@ -7,7 +7,7 @@ This repository is organized into three main folders:
 
 ├── dashboard/
 ├── data/
-├── scripts/
+└──scripts/
 
 ```
 
