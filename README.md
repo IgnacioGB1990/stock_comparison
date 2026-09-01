@@ -2,7 +2,7 @@
 
 
 
-# Dow Jones Stock Performance Dashboard
+# Dow Jones Stock Performance Dashboard 📈
 
 An interactive stock analysis tool built entirely in **Microsoft Excel**, using native **dynamic arrays and spilled ranges** — no VBA, no macros, no add-ins. Users pick any stock (or pair of stocks) from the Dow Jones Industrial Average and instantly see filtered performance data pulled live from a 5-year historical dataset.
 
