@@ -17,6 +17,13 @@ The workbook has two main views:
 
 In both views, users can select any point within the last 5 years as a starting date, and the output automatically recalculates and resizes to match.
 
+
+## Demo
+
+**🎥 Quick video demo**
+
+A short walkthrough of the dashboard in action — selecting different Dow Jones tickers, adjusting the date range, and watching the Stock Analysis and Stock Comparison views spill and update live.
+
 https://github.com/user-attachments/assets/d8910b13-b3fb-4217-a575-e7c09393999f
 
 
