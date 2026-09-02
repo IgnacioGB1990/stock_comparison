@@ -38,11 +38,64 @@ https://github.com/user-attachments/assets/d8910b13-b3fb-4217-a575-e7c09393999f
 
 
 
-## Project Workflow
-
-1. Collect or generate data using the scripts in `scripts/`.
-2. Store raw or processed datasets in `data/`.
-3. Build reports and visualizations using the files in `dashboard/`.
-
-This structure helps keep the project organized, reproducible, and easy to navigate.
-
+## Data Source: Yahoo Finance 📈
+ 
+Downloads 5 years of historical daily price data for all 30 Dow Jones Industrial Average constituents using the [`yfinance`](https://pypi.org/project/yfinance/) library, and exports the combined dataset to a single CSV file for use in the [Stock Comparison Dashboard](../README.md).
+ 
+## What it does
+ 
+1. **Installs dependencies** — installs `yfinance` if not already available.
+2. **Sets parameters** — defines the date range for the data pull:
+   - `START_DATE = "2020-07-14"`
+   - `END_DATE = "2025-07-14"`
+3. **Defines the ticker list** — the 30 companies currently in the Dow Jones Industrial Average (e.g. `AAPL`, `MSFT`, `JPM`, `V`, `WMT`, etc.).
+4. **Downloads data per ticker** — for each ticker, it:
+   - Pulls company metadata (`longName`, `sector`) via `yfinance`'s `Ticker.info`.
+   - Pulls daily historical prices (open, high, low, close, volume, dividends, stock splits) via `Ticker.history()`, unadjusted for splits/dividends (`auto_adjust=False`).
+   - Tags each row with the ticker, sector, and company name.
+   - Skips a ticker (with a message) if no data is returned, and catches/logs any download errors so one failed ticker doesn't stop the whole run.
+5. **Combines all tickers** into a single DataFrame and keeps only the relevant columns.
+6. **Exports to CSV** — writes the result to `data/dow_jones_data.csv`, creating the `data/` folder if needed. The file uses `;` as the column separator and `,` as the decimal separator (Excel-friendly for European locales).
+7. **Prints a summary** — row count and a preview of the first few rows.
+## Requirements
+ 
+- Python 3.x
+- `pandas`
+- `yfinance`
+Install manually if needed:
+ 
+```bash
+pip install pandas yfinance
+```
+ 
+## Usage
+ 
+Run the notebook cells in order (or convert to a script). Data is pulled live from Yahoo Finance, so an internet connection is required.
+ 
+To change the scope of the data pull, edit the parameters at the top of the second cell:
+ 
+- `START_DATE` / `END_DATE` — adjust the historical window.
+- `tickers` — add, remove, or swap out any ticker symbols.
+## Output
+ 
+The script produces `data/dow_jones_data.csv` with one row per ticker per trading day:
+ 
+| Column | Description |
+|---|---|
+| `Date` | Trading date |
+| `Open` | Opening price |
+| `High` | Intraday high |
+| `Low` | Intraday low |
+| `Close` | Closing price (unadjusted) |
+| `Volume` | Shares traded |
+| `Dividends` | Dividend paid that day, if any |
+| `Stock Splits` | Split ratio applied that day, if any |
+| `Ticker` | Stock ticker symbol |
+| `Sector` | GICS sector (from Yahoo Finance metadata) |
+| `CompanyName` | Full company name |
+ 
+## Notes
+ 
+- Yahoo Finance may occasionally rate-limit or return incomplete metadata (e.g. missing sector) for some tickers — the script logs these cases rather than failing outright.
+- Re-running the notebook overwrites the existing `dow_jones_data.csv`.
+ 
